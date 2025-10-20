@@ -239,7 +239,7 @@ svg{
 .section{
   position: relative;
   width: 50%;
-  padding: 1000px 4%;
+  padding: 100px 4%;
   margin: 0;
   background-color: var(--color-background);
   overflow: hidden;
