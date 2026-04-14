@@ -34,6 +34,7 @@ export default class Controls {
             this.setSmoothScroll();
         }
         this.setScrollTrigger();
+        this.setUiScrollAnimations();
     }
 
     setupASScroll() {
@@ -94,6 +95,7 @@ export default class Controls {
                 this.room.scale.set(0.11, 0.11, 0.11);
                 this.rectLight.width = 0.5;
                 this.rectLight.height = 0.7;
+                this.rectLight.intensity = 2.2;
                 this.camera.orthographicCamera.position.set(0, 6.5, 10);
                 this.room.position.set(0, 0, 0);
                 // First section -----------------------------------------
@@ -153,6 +155,7 @@ export default class Controls {
                         {
                             width: 0.5 * 4,
                             height: 0.7 * 4,
+                            intensity: 3.8,
                         },
                         "same"
                     );
@@ -181,6 +184,7 @@ export default class Controls {
                 this.room.position.set(0, 0, 0);
                 this.rectLight.width = 0.3;
                 this.rectLight.height = 0.4;
+                this.rectLight.intensity = 2.1;
                 this.camera.orthographicCamera.position.set(0, 6.5, 10);
 
                 // First section -----------------------------------------
@@ -222,6 +226,7 @@ export default class Controls {
                         {
                             width: 0.3 * 3.4,
                             height: 0.4 * 3.4,
+                            intensity: 3.2,
                         },
                         "same"
                     )
@@ -463,6 +468,220 @@ export default class Controls {
                 this.secondPartTimeline.add(this.ninth, "-=0.1");
             },
         });
+    }
+
+    setUiScrollAnimations() {
+        GSAP.timeline({
+            scrollTrigger: {
+                trigger: ".page-wrapper",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 0.35,
+                invalidateOnRefresh: true,
+            },
+        })
+            .to(
+                ".scroll-grid",
+                {
+                    backgroundPositionX: "120px",
+                    backgroundPositionY: "260px",
+                    ease: "none",
+                },
+                0
+            )
+            .to(
+                ".scroll-glow",
+                {
+                    xPercent: -12,
+                    yPercent: 18,
+                    opacity: 0.95,
+                    ease: "none",
+                },
+                0
+            )
+            .to(
+                ".scroll-atmosphere",
+                {
+                    "--line-opacity": 1,
+                    ease: "none",
+                },
+                0
+            )
+            .to(
+                ".flash-a",
+                {
+                    xPercent: 24,
+                    yPercent: 12,
+                    opacity: 0.42,
+                    scale: 1.16,
+                    ease: "none",
+                },
+                0
+            )
+            .to(
+                ".flash-b",
+                {
+                    xPercent: -20,
+                    yPercent: 8,
+                    opacity: 0.5,
+                    scale: 1.22,
+                    ease: "none",
+                },
+                0
+            )
+            .to(
+                ".flash-c",
+                {
+                    yPercent: -16,
+                    opacity: 0.44,
+                    scale: 1.2,
+                    ease: "none",
+                },
+                0
+            );
+
+        GSAP.utils.toArray(".scroll-line").forEach((line, index) => {
+            GSAP.to(line, {
+                yPercent: 85 + index * 12,
+                xPercent: index % 2 === 0 ? 14 : -14,
+                rotate: index % 2 === 0 ? 12 : -12,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".page-wrapper",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0.25,
+                    invalidateOnRefresh: true,
+                },
+            });
+        });
+
+        // Keep hero subtitle always visible to avoid flicker/disappearance.
+        GSAP.set(".hero-second-subheading", { y: 0, opacity: 1 });
+
+        GSAP.utils.toArray(".section-heading").forEach((element) => {
+            GSAP.set(element, { y: 0, opacity: 1 });
+
+            ScrollTrigger.create({
+                trigger: element,
+                start: "top 88%",
+                once: true,
+                onEnter: () => {
+                    GSAP.from(element, {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.65,
+                        ease: "power3.out",
+                        clearProps: "transform,opacity",
+                    });
+                },
+            });
+        });
+
+        GSAP.utils.toArray(".section-title-text").forEach((element) => {
+            GSAP.set(element, { y: 0, opacity: 1 });
+
+            ScrollTrigger.create({
+                trigger: element,
+                start: "top 88%",
+                once: true,
+                onEnter: () => {
+                    GSAP.from(element, {
+                        y: 24,
+                        opacity: 0,
+                        duration: 0.7,
+                        ease: "power3.out",
+                        clearProps: "transform,opacity",
+                    });
+                },
+            });
+        });
+
+        GSAP.utils.toArray(".section-text").forEach((element) => {
+            GSAP.set(element, { y: 0, opacity: 1 });
+
+            ScrollTrigger.create({
+                trigger: element,
+                start: "top 90%",
+                once: true,
+                onEnter: () => {
+                    GSAP.from(element, {
+                        y: 18,
+                        opacity: 0,
+                        duration: 0.7,
+                        ease: "power2.out",
+                        clearProps: "transform,opacity",
+                    });
+                },
+            });
+        });
+
+        [".first-move", ".second-move", ".third-move"].forEach((trigger) => {
+            ScrollTrigger.create({
+                trigger,
+                start: "top center",
+                onEnter: () => this.playFlashPulse(),
+                onLeaveBack: () => this.playFlashPulse(),
+            });
+        });
+    }
+
+    playFlashPulse() {
+        GSAP.timeline()
+            .to(
+                [".flash-a", ".flash-b", ".flash-c"],
+                {
+                    opacity: 0.7,
+                    scale: 1.36,
+                    duration: 0.24,
+                    stagger: 0.05,
+                    ease: "power2.out",
+                },
+                0
+            )
+            .to(
+                ".scroll-glow",
+                {
+                    opacity: 1,
+                    duration: 0.24,
+                    ease: "power2.out",
+                },
+                0
+            )
+            .to(
+                [".flash-a", ".flash-b", ".flash-c"],
+                {
+                    opacity: 0.28,
+                    scale: 1,
+                    duration: 0.55,
+                    stagger: 0.04,
+                    ease: "power1.inOut",
+                },
+                0.2
+            )
+            .to(
+                ".scroll-glow",
+                {
+                    opacity: 0.82,
+                    duration: 0.55,
+                    ease: "power1.inOut",
+                },
+                0.2
+            );
+
+        if (this.rectLight) {
+            GSAP.fromTo(
+                this.rectLight,
+                { intensity: this.rectLight.intensity },
+                {
+                    intensity: this.rectLight.intensity + 1.25,
+                    duration: 0.22,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: "sine.inOut",
+                }
+            );
+        }
     }
     resize() {}
 

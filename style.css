@@ -8,6 +8,10 @@
 
 html, body{
   font-family: "Montserrat", sans-serif;
+  background:
+    radial-gradient(circle at 18% 15%, rgba(93, 173, 226, 0.22), transparent 35%),
+    radial-gradient(circle at 80% 85%, rgba(118, 215, 196, 0.18), transparent 30%),
+    linear-gradient(145deg, #eef4ff 0%, #f7f3e9 45%, #e9f8f4 100%);
 }
 
 /* body{
@@ -51,17 +55,35 @@ svg{
   --color-blue: var(--color-text-dark);
 }
 
+.dark-theme,
+.dark-theme body,
+body.dark-theme{
+  background:
+    radial-gradient(circle at 20% 10%, rgba(93, 173, 226, 0.22), transparent 35%),
+    radial-gradient(circle at 78% 82%, rgba(118, 215, 196, 0.18), transparent 32%),
+    linear-gradient(145deg, #4f608d 0%, #7387c2 45%, #5d6ea0 100%);
+}
+
 /* Experience --------------------------------------------- */
 
 .experience{
   position: fixed;
+  z-index: 3;
   width: 100vw;
   height: 100vh;
+}
+
+.experience > *{
+  position: absolute;
+  inset: 0;
 }
 
 .experience-canvas{
   width: 100%;
   height: 100%;
+  display: block;
+  background: transparent;
+  z-index: 2;
 }
 
 .hidden{
@@ -126,7 +148,8 @@ svg{
 
 /* Page Itself --------------------------------------------- */
 .page{
-  z-index:99999;
+  position: relative;
+  z-index: 6;
   width: 100%;
   height: 100vh;
   overflow: hidden;
@@ -134,7 +157,166 @@ svg{
 
 .page-wrapper{
   position: relative;
+  z-index: 2;
 }
+
+.scroll-atmosphere{
+  --line-opacity: 0.62;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.scroll-grid{
+  position: absolute;
+  inset: -12%;
+  background-image:
+    linear-gradient(rgba(93, 173, 226, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(211, 84, 0, 0.16) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.92;
+  will-change: transform, opacity, background-position;
+}
+
+.scroll-grid::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.42));
+}
+
+.scroll-glow{
+  position: absolute;
+  width: 65vw;
+  height: 65vw;
+  top: -15%;
+  right: -12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(93, 173, 226, 0.28), rgba(93, 173, 226, 0));
+  filter: blur(14px);
+  opacity: 0.92;
+  will-change: transform, opacity;
+}
+
+.flash-lights{
+  position: absolute;
+  inset: -10%;
+}
+
+.flash-light{
+  position: absolute;
+  width: 34vw;
+  height: 34vw;
+  border-radius: 50%;
+  opacity: 0.16;
+  filter: blur(22px);
+  transform: scale(0.82);
+  background: radial-gradient(circle, rgba(118, 215, 196, 0.45), rgba(118, 215, 196, 0));
+}
+
+.flash-a{
+  top: 8%;
+  left: -8%;
+}
+
+.flash-b{
+  top: 36%;
+  right: -12%;
+  background: radial-gradient(circle, rgba(93, 173, 226, 0.5), rgba(93, 173, 226, 0));
+}
+
+.flash-c{
+  bottom: -10%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(211, 84, 0, 0.35), rgba(211, 84, 0, 0));
+}
+
+.scroll-lines{
+  position: absolute;
+  inset: -12%;
+}
+
+.scroll-line{
+  position: absolute;
+  width: 140%;
+  height: 2px;
+  left: -20%;
+  opacity: var(--line-opacity);
+  background: linear-gradient(90deg, rgba(93, 173, 226, 0), rgba(93, 173, 226, 0.92), rgba(118, 215, 196, 0));
+  box-shadow: 0 0 14px rgba(93, 173, 226, 0.45);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.line-1{ top: 12%; transform: rotate(-8deg); }
+.line-2{ top: 24%; transform: rotate(-3deg); }
+.line-3{ top: 38%; transform: rotate(2deg); }
+.line-4{ top: 52%; transform: rotate(5deg); }
+.line-5{ top: 66%; transform: rotate(-4deg); }
+.line-6{ top: 80%; transform: rotate(7deg); }
+
+/* Cursor pincel */
+body{
+  cursor: none;
+}
+
+.ink-cursor{
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  pointer-events: none;
+  z-index: 2147483647;
+  opacity: 0;
+  border-radius: 50%;
+  background: var(--ink-cursor-color, #111111);
+  box-shadow: var(--ink-cursor-shadow, 0 0 0 2px rgba(17, 17, 17, 0.1), 0 0 14px rgba(0, 0, 0, 0.2));
+  transition: opacity 0.12s ease, transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.ink-cursor.moving{
+  transform: translate(-50%, -50%) scale(3.6);
+}
+
+.ink-eye{
+  position: absolute;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
+}
+
+.ink-eye-left{
+  left: 4px;
+}
+
+.ink-eye-right{
+  right: 4px;
+}
+
+.ink-pupil{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.2px;
+  height: 2.2px;
+  border-radius: 50%;
+  background: #111111;
+  transform: translate(calc(-50% + (var(--gaze-x, 0) * 2px)), calc(-50% + (var(--gaze-y, 0) * 2px)));
+}
+
+.ink-cursor.moving .ink-eye{
+  transform: translateY(-0.3px);
+}
+
 
 /* Preloader Stuff */
 .animatedis{
@@ -238,11 +420,21 @@ svg{
 
 .section{
   position: relative;
+  z-index: 2;
   width: 50%;
   padding: 100px 4%;
   margin: 0;
-  background-color: var(--color-background);
+  background-color: rgba(250, 244, 229, 0.9);
+  backdrop-filter: blur(2px);
   overflow: hidden;
+}
+
+.dark-theme .section{
+  background-color: rgba(131, 149, 205, 0.88);
+}
+
+.dark-theme .flash-light{
+  opacity: 0.12;
 }
 
 .left{
@@ -327,10 +519,12 @@ svg{
 /* Fancy Decoration Part of Section */
 .section-title{
   position: relative;
-  color: var(--color-pink)
+  color: var(--color-pink);
+  isolation: isolate;
 }
 
 .section-title-text{
+  position: relative;
   display: block;
   font-size: 40px;
   font-weight: 500;
@@ -345,6 +539,7 @@ svg{
 .styleTwo,
 .styleThree{
   position: absolute;
+  z-index: 1;
   display: block;
   width: 100%;
   max-width: 278px;
@@ -386,6 +581,7 @@ svg{
 
 .hero-wrapper{
   position: relative;
+  z-index: 2;
   height: 100%;
   width: 100%;
   margin: 0 auto;
@@ -453,6 +649,28 @@ svg{
 /* Media Queries */
 
 @media (max-width: 968px){
+  body{
+    cursor: auto;
+  }
+
+  .ink-cursor{
+    display: none;
+  }
+
+  .scroll-grid{
+    background-size: 46px 46px;
+  }
+
+  .scroll-line{
+    opacity: 0.22;
+  }
+
+  .scroll-glow{
+    width: 85vw;
+    height: 85vw;
+    right: -24%;
+  }
+
   .section{
     width: 100%;
   }
