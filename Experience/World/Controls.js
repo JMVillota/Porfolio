@@ -39,7 +39,7 @@ export default class Controls {
     setupASScroll() {
         // https://github.com/ashthornton/asscroll
         const asscroll = new ASScroll({
-            ease: 0.5,
+            ease: 0.18,
             disableRaf: true,
         });
 
@@ -102,7 +102,7 @@ export default class Controls {
                         trigger: ".first-move",
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 0.25,
                         // markers: true,
                         invalidateOnRefresh: true,
                     },
@@ -123,7 +123,7 @@ export default class Controls {
                         trigger: ".second-move",
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 0.25,
                         invalidateOnRefresh: true,
                     },
                 })
@@ -163,7 +163,7 @@ export default class Controls {
                         trigger: ".third-move",
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 0.25,
                         invalidateOnRefresh: true,
                     },
                 }).to(this.camera.orthographicCamera.position, {
@@ -189,7 +189,7 @@ export default class Controls {
                         trigger: ".first-move",
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 0.25,
                         // invalidateOnRefresh: true,
                     },
                 }).to(this.room.scale, {
@@ -204,7 +204,7 @@ export default class Controls {
                         trigger: ".second-move",
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 0.25,
                         invalidateOnRefresh: true,
                     },
                 })
@@ -239,7 +239,7 @@ export default class Controls {
                         trigger: ".third-move",
                         start: "top top",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 0.25,
                         invalidateOnRefresh: true,
                     },
                 }).to(this.room.position, {
@@ -300,7 +300,7 @@ export default class Controls {
                             trigger: section,
                             start: "top top",
                             end: "bottom bottom",
-                            scrub: 0.4,
+                            scrub: 0.2,
                             pin: this.progressWrapper,
                             pinSpacing: false,
                         },
@@ -366,7 +366,10 @@ export default class Controls {
                 this.secondPartTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: ".third-move",
-                        start: "center center",
+                        start: "top center",
+                        end: "bottom center",
+                        scrub: 0.25,
+                        invalidateOnRefresh: true,
                     },
                 });
 

@@ -232,7 +232,7 @@ svg{
 
 /* Section Formatting --------------------------------------------- */
 .section-margin{
-  height: 3000px;
+  height: 1400px;
   width: 100%;
 }
 
@@ -288,9 +288,9 @@ svg{
 
 .section-intro-wrapper{
   position: relative;
-  padding: 20% 5%;
+  padding: 12% 5%;
   border-bottom: 2px solid var(--color-pink);
-  padding-bottom: 400px;
+  padding-bottom: 220px;
 }
 
 .section-intro-wrapper:nth-child(3){
@@ -299,13 +299,13 @@ svg{
 
 .section-detail-wrapper{
   position: relative;
-  padding: 20% 5%;
-  padding-bottom: 400px;
+  padding: 12% 5%;
+  padding-bottom: 220px;
 }
 .section-detail-wrapper-3{
   border-bottom: 2px solid var(--color-green);
   position: relative;
-  padding: 20% 5%;
+  padding: 12% 5%;
   padding-bottom: 20px;
 }
 
